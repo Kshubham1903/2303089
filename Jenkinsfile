@@ -14,8 +14,10 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building portfolio website'
-                sh 'test -f index.html'
-                sh 'test -f style.css'
+
+                bat 'if not exist index.html exit /b 1'
+                bat 'if not exist style.css exit /b 1'
+
                 echo 'Build completed successfully!'
             }
         }
@@ -23,11 +25,12 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Checking website files'
-                sh 'grep -q "My Portfolio" index.html'
+
+                bat 'findstr /C:"My Portfolio" index.html'
+
                 echo 'Website test passed!'
             }
         }
-
     }
 
     post {
